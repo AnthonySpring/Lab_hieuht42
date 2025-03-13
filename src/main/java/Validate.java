@@ -1,102 +1,111 @@
 import java.util.Scanner;
 import java.util.NoSuchElementException;
 import java.util.InputMismatchException;
+
 public class Validate {
-    public static int GetID(){
+
+    public static int GetID() {
         Scanner scanner = new Scanner(System.in);
         int id = -1;
-        while (true){
-            try{
+        while (true) {
+            try {
                 System.out.println("Enter fruit's ID : ");
                 id = scanner.nextInt();
-                if(id>0)
-                    break;
-            } catch (InputMismatchException exception){
+                if (id > 0) break;
+            } catch (InputMismatchException exception) {
                 System.out.println("Invalid input !");
                 scanner.nextLine();
             }
         }
         return id;
     }
-    public static String GetName(){
+
+    public static String GetName() {
         Scanner scanner = new Scanner(System.in);
         String name = "";
-        while (true){
-            try{
+        while (true) {
+            try {
                 System.out.println("Enter fruit's name : ");
                 name = scanner.nextLine();
-                if(!name.isEmpty())
+                if (!name.isEmpty())
                     break;
-            } catch (NoSuchElementException exception){
+            } catch (NoSuchElementException exception) {
                 System.out.println("Invalid input !");
                 scanner.nextLine();
             }
         }
         return name;
     }
-    public static int GetPrice(){
+
+    public static int GetPrice() {
         Scanner scanner = new Scanner(System.in);
         int price = -1;
-        while (true){
-            try{
+        while (true) {
+            try {
                 System.out.println("Enter fruit's price : ");
                 price = scanner.nextInt();
-                if(price > 0) break;
-            } catch (InputMismatchException exception){
+                if (price > 0) break;
+            } catch (InputMismatchException exception) {
                 System.out.println("Invalid input !");
                 scanner.nextLine();
             }
         }
         return price;
     }
-    public static int GetQuantity(){
+
+    public static int GetQuantity() {
         Scanner scanner = new Scanner(System.in);
         int quan = -1;
-        while (true){
-            try{
+        while (true) {
+            try {
                 System.out.println("Enter fruit's quantity : ");
                 quan = scanner.nextInt();
-                if(quan > 0) break;
-            } catch (InputMismatchException exception){
+                if (quan > 0) break;
+            } catch (InputMismatchException exception) {
                 System.out.println("Invalid input !");
                 scanner.nextLine();
             }
         }
         return quan;
     }
-    public static String GetPlace(){
+
+    public static String GetPlace() {
         Scanner scanner = new Scanner(System.in);
         String place = "";
-        while (true){
-            try{
-                System.out.println("Enter fruit's origination : ");
+        while (true) {
+            try {
+                System.out.println("Enter fruit's origin : ");
                 place = scanner.nextLine();
-                if(!place.isEmpty())
+                if (!place.isEmpty())
                     break;
-            } catch (NoSuchElementException exception){
+            } catch (NoSuchElementException exception) {
                 System.out.println("Invalid input !");
                 scanner.nextLine();
             }
         }
         return place;
     }
-    public static boolean isValidID(int id){
-        for (Fruit fruit : Controller.fruits){
+
+    public static boolean isValidID(int id) {
+        for (Fruit fruit : Controller.fruits) {
             if (fruit.getId() == id)
                 return false;
         }
         return true;
     }
-    public static int GetChoice(){
-        Scanner sc = new Scanner(System.in);
-        int choice;
-        while ( true) {
+
+    public static String validateChoice() {
+        Scanner scanner = new Scanner(System.in);
+        String choice = "";
+        while (true) {
             try {
-                System.out.println("Enter your choice : ");
-                choice = sc.nextInt();
-                if (choice >= 1 && choice <= 4) break;
-            } catch (InputMismatchException e){
-                sc.nextLine();
+                System.out.println("Do you want to continue shopping? (Y/N)");
+                choice = scanner.nextLine();
+                if (choice.equalsIgnoreCase("n") || choice.equalsIgnoreCase("Y"))
+                    break;
+            } catch (NoSuchElementException exception) {
+                System.out.println("Invalid input !");
+                scanner.nextLine();
             }
         }
         return choice;

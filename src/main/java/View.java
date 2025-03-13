@@ -1,20 +1,24 @@
+import java.util.Scanner;
+
 public class View {
-    public static void run(){
-        while(true){
-            System.out.println("=====================Welcome to fruit manager programm================");
+
+    public static void run() {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("===================== Welcome to fruit manager program ====================");
             System.out.println("1. Add a fruit (Seller)");
             System.out.println("2. View orders (Seller)");
             System.out.println("3. Shopping (Customer)");
             System.out.println("4. Exit");
-            int choice = Validate.GetChoice();
-            switch (choice){
-                case 1 :
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
                     Controller.AddFruit();
                     break;
-                case 2 :
-                    Controller.ViewOrder();
+                case 2:
+                    Controller.ViewOrders();
                     break;
-                case 3 :
+                case 3:
                     Controller.Shop();
                     break;
                 case 4:
@@ -23,9 +27,12 @@ public class View {
             }
         }
     }
+
     public static void main(String[] args) {
-            run();
-        }
-
+        run();
+        // Add some initial fruits for testing
+        Controller.fruits.add(new Fruit(1, "Banana", 10, "Vietnam"));
+        Controller.fruits.add(new Fruit(2, "Apple", 20, "Vietnam"));
+        Controller.fruits.add(new Fruit(3, "Orange", 15, "USA"));
     }
-
+}

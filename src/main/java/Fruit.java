@@ -31,11 +31,11 @@ public class Fruit {
     }
 
     public String toString() {
-        return String.format("| %-10d | %-15s | %-10s | %-8.2f$ |\n", id, name, origin, price);
+        return String.format("| %-10d | %-15s | %-10s | %-10d |\n", id, name, origin, price);
     }
 
     public String shopList() {
-        return String.format("%-10d %-15s %-10s %-8.2f", id, name, origin, price);
+        return String.format("%-10d %-15s %-10s %-10d", id, name, origin, price);
     }
 
 }

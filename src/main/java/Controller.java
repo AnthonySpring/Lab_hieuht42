@@ -1,7 +1,6 @@
-import javax.sound.midi.MidiMessage;
-import javax.swing.plaf.basic.BasicBorders;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Controller {
     public static ArrayList<Fruit> fruits = new ArrayList<>();
@@ -14,94 +13,91 @@ public class Controller {
         String place = Validate.GetPlace();
         Fruit p = new Fruit(id, name, price, place);
         fruits.add(p);
+        FruitDisplay();
     }
 
     public static void FruitDisplay() {
         for (Fruit fruit : fruits) {
-            fruit.toString();
+            System.out.println(fruit.toString());
         }
     }
 
-    public static void FruitShop(){
-        for (Fruit fruit : fruits){
-            fruit.shopList();
+    public static void FruitShop() {
+        for (Fruit fruit : fruits) {
+            System.out.println(fruit.shopList());
         }
     }
-    public static void Shopping(){
-        //Can hien thi mot danh sach day du va shop
-        Shop();
 
-
-    }
-    public static Fruit find(int id){
-        Fruit temp = new Fruit();
-        for (Fruit fruit : fruits){
-            return (fruit.getId() == id) ? fruit : temp;
+    public static Fruit find(int id) {
+        for (Fruit fruit : fruits) {
+            if (fruit.getId() == id) {
+                return fruit;
+            }
         }
-        return temp;
+        return null;  // Trả về null nếu không tìm thấy
     }
 
-    public static void addOrder(ArrayList<Order> customerOrder, int id, int quan){
+    public static void addOrder(ArrayList<Order> cusOrder, int id, int quan) {
         Fruit f = find(id);
-        int amount = f.getPrice()*quan;
-        Order newOrder = new Order(f.id, f.getName(), quan, f.getPrice(), amount);
+        if (f == null) {
+            System.out.println("Product not found!");
+            return;
+        }
+        int amount = f.getPrice() * quan;
+
+        // Kiểm tra xem sản phẩm đã có trong đơn hàng chưa
+        boolean found = false;
+        for (Order order : cusOrder) {
+            if (order.getId() == id) {
+                // Nếu sản phẩm đã có trong đơn hàng, cộng số lượng
+                order.setQuantity(order.getQuantity() + quan);
+                order.setAmount(order.getPrice() * order.getQuantity());
+                found = true;
+                break;
+            }
+        }
+
+        // Nếu sản phẩm chưa có trong đơn hàng, thêm món hàng mới vào
+        if (!found) {
+            Order newOrder = new Order(f.getId(), f.getName(), quan, f.getPrice(), amount);
+            cusOrder.add(newOrder);  // Thêm đơn hàng vào danh sách
+        }
     }
-    public static void Shop(){
+
+    public static void Shop() {
+        FruitShop();
         ArrayList<Order> cusOrders = new ArrayList<>();
-        while(true){
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
             int id = -1;
-            while(!Validate.isValidID(id)){
-                id = Validate.GetID();
+            while (!Validate.isValidID(id) || id < 0) {
+                id = scanner.nextInt();
             }
             int quan = Validate.GetQuantity();
             addOrder(cusOrders, id, quan);
 
-            String choice = Validate.GetName();
+            String choice = Validate.validateChoice();
             if (choice.equalsIgnoreCase("n"))
                 break;
         }
 
         String cusName = Validate.GetName();
-        if (orders.containsKey(cusName))
+        if (orders.containsKey(cusName)) {
             orders.get(cusName).addAll(cusOrders);
-        else
+        } else {
             orders.put(cusName, cusOrders);
+        }
         cusOrders.clear();
     }
-    public static void ViewOrder(){
-        for (String customer : orders.keySet()){
+
+    public static void ViewOrders() {
+        for (String customer : orders.keySet()) {
             ArrayList<Order> cusOrders = orders.get(customer);
             System.out.println(customer);
-            for (Order order : cusOrders){
+            for (Order order : cusOrders) {
                 order.showOrder();
             }
             System.out.println();
         }
     }
-
-//    public static void Shop() {
-//        ArrayList<Order> customerOrders = new ArrayList<>();
-//        while (true) {
-//            int id = -1;
-//            while (!Validate.isValidID(id)) {
-//                id = Validate.GetID();
-//            }
-//            int quan = Validate.GetQuantity();
-//            addOrder(customerOrders, id, quan);
-//            // Hỏi khách hàng có muốn tiếp tục mua không
-//            System.out.println("Do you want to add more items to your order? (Y/N)");
-//            String choice = Validate.GetName();
-//            if (choice.equalsIgnoreCase("N")) {
-//                // Nếu khách hàng chọn "N", kết thúc việc nhập đơn hàng và tiếp tục
-//                break;  // Dừng lại khi khách hàng chọn "N"
-//            }
-//        }
-//        String cusName = Validate.GetName();
-//        if (orders.containsKey(cusName)){
-//            orders.get(cusName).addAll(customerOrders);
-//        } else {
-//            orders.put(cusName, customerOrders);
-//        }
-//        customerOrders.clear();
-//    }
 }
