@@ -87,4 +87,18 @@ public class Validate {
         }
         return true;
     }
+    public static int GetChoice(){
+        Scanner sc = new Scanner(System.in);
+        int choice;
+        while ( true) {
+            try {
+                System.out.println("Enter your choice : ");
+                choice = sc.nextInt();
+                if (choice >= 1 && choice <= 4) break;
+            } catch (InputMismatchException e){
+                sc.nextLine();
+            }
+        }
+        return choice;
+    }
 }
